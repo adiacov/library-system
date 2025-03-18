@@ -46,7 +46,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         lineLogger.info("Running Library App.");
         lineLogger.info("Enter a command or 'exit' to quit.");
-        execHelp();
+        executeHelp();
 
         while (true) {
             String input = scanner.nextLine().trim();
@@ -69,88 +69,124 @@ public class Main {
 
         switch (command) {
             case ("help"):
-                execHelp();
+                executeHelp();
                 break;
+
             case ("user-list"):
-                library.listUsers();
+                executeUserList();
                 break;
+
             case ("user-add"):
-                // this command expects 2 arguments.
-                if (args.length < 2) {
-                    String msg = String.format("Command 'user-add' expects 2 arguments. Currently there are %d arguments. Try again or 'exit'.", args.length);
-                    appLogger.warning(msg);
-                    break;
-                }
-                library.registerUser(args[0], args[1]);
+                executeUserAdd(args);
                 break;
+
             case ("book-list"):
-                library.listBooks();
+                executeBookList();
                 break;
+
             case ("book-add"):
-                // this command expects one argument
-                if (args.length < 1) {
-                    String msg = String.format("Command 'book-add' expects 1 argument. Currently there are %d arguments. Try again or 'exit'.", args.length);
-                    appLogger.warning(msg);
-                    break;
-                }
-                library.addNewBook(args[0]);
+                executeBookAdd(args);
                 break;
+
             case ("book-borrow"):
-                // this command expects 2 arguments.
-                if (args.length < 2) {
-                    String msg = String.format("Command 'book-borrow' expects 2 arguments. Currently there are %d arguments. Try again or 'exit'.", args.length);
-                    appLogger.warning(msg);
-                } else {
-                    try {
-                        library.borrowBook(Long.parseLong(args[0]), Long.parseLong(args[1]));
-                        break;
-                    } catch (NumberFormatException ex) {
-                        String msg = "Cannot parse arguments. Command 'book-borrow' expects numbers as arguments.";
-                        appLogger.warning(msg);
-                        break;
-                    }
-                }
+                executeBookBorrow(args);
                 break;
 
             case ("book-return"):
-                // this command expects 1 argument.
-                if (args.length < 1) {
-                    String msg = String.format("Command 'book-borrow' expects 1 argument. Currently there are %d arguments. Try again or 'exit'.", args.length);
-                    appLogger.warning(msg);
-                    break;
-                } else {
-                    try {
-                        library.returnBook(Long.parseLong(args[0]));
-                    } catch (NumberFormatException ex) {
-                        String msg = "Cannot parse arguments. Command 'book-borrow' expects number as argument.";
-                        appLogger.warning(msg);
-                        break;
-                    }
-                }
+                executeBookReturn(args);
                 break;
+
             case ("book-borrowed"):
-                // this command expects 1 argument.
-                if (args.length < 1) {
-                    String msg = String.format("Command 'book-borrowed' expects 1 argument. Currently there are %d arguments. Try again or 'exit'.", args.length);
-                    appLogger.warning(msg);
-                    break;
-                } else {
-                    try {
-                        library.returnBook(Long.parseLong(args[0]));
-                    } catch (NumberFormatException ex) {
-                        String msg = "Cannot parse arguments. Command 'book-borrowed' expects number as argument.";
-                        appLogger.warning(msg);
-                        break;
-                    }
-                }
+                executeBookBorrowed(args);
                 break;
+
             default:
                 lineLogger.warning("WARNING: Unsupported command " + command);
                 break;
         }
     }
 
-    private static void execHelp() {
+    private static void executeBookBorrowed(String[] args) {
+        // this command expects 1 argument.
+        if (args.length < 1) {
+            String msg = String.format("Command 'book-borrowed' expects 1 argument. Currently there are %d arguments. Try again or 'exit'.", args.length);
+            appLogger.warning(msg);
+        } else {
+            try {
+                String result = library.listBorrowedBooks(Long.parseLong(args[0]));
+                lineLogger.info(result);
+            } catch (NumberFormatException ex) {
+                String msg = "Cannot parse arguments. Command 'book-borrowed' expects number as argument.";
+                appLogger.warning(msg);
+            }
+        }
+    }
+
+    private static void executeBookReturn(String[] args) {
+        // this command expects 1 argument.
+        if (args.length < 1) {
+            String msg = String.format("Command 'book-borrow' expects 1 argument. Currently there are %d arguments. Try again or 'exit'.", args.length);
+            appLogger.warning(msg);
+        } else {
+            try {
+                String result = library.returnBook(Long.parseLong(args[0]));
+                lineLogger.info(result);
+            } catch (NumberFormatException ex) {
+                String msg = "Cannot parse arguments. Command 'book-borrow' expects number as argument.";
+                appLogger.warning(msg);
+            }
+        }
+    }
+
+    private static void executeBookBorrow(String[] args) {
+        // this command expects 2 arguments.
+        if (args.length < 2) {
+            String msg = String.format("Command 'book-borrow' expects 2 arguments. Currently there are %d arguments. Try again or 'exit'.", args.length);
+            appLogger.warning(msg);
+        } else {
+            try {
+                String result = library.borrowBook(Long.parseLong(args[0]), Long.parseLong(args[1]));
+                lineLogger.info(result);
+            } catch (NumberFormatException ex) {
+                String msg = "Cannot parse arguments. Command 'book-borrow' expects numbers as arguments.";
+                appLogger.warning(msg);
+            }
+        }
+    }
+
+    private static void executeBookAdd(String[] args) {
+        // this command expects one argument
+        if (args.length < 1) {
+            String msg = String.format("Command 'book-add' expects 1 argument. Currently there are %d arguments. Try again or 'exit'.", args.length);
+            appLogger.warning(msg);
+            return;
+        }
+        String result = library.addNewBook(args[0]);
+        lineLogger.info(result);
+    }
+
+    private static void executeBookList() {
+        String result = library.listBooks();
+        lineLogger.info(result);
+    }
+
+    private static void executeUserAdd(String[] args) {
+        // this command expects 2 arguments.
+        if (args.length < 2) {
+            String msg = String.format("Command 'user-add' expects 2 arguments. Currently there are %d arguments. Try again or 'exit'.", args.length);
+            appLogger.warning(msg);
+            return;
+        }
+        String result = library.registerUser(args[0], args[1]);
+        lineLogger.info(result);
+    }
+
+    private static void executeUserList() {
+        String result = library.listUsers();
+        lineLogger.info(result);
+    }
+
+    private static void executeHelp() {
         lineLogger.info("Options:");
         // Utils
         lineLogger.info("help                                 : Prints help message.");

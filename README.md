@@ -11,7 +11,9 @@ The `main` branch contains the Library Management System is a Command Line Inter
 ### Run with CLI
 
 Clone the project. Open it in your favorite IDE. Start the `Main` application.  
-While doing this, a help message is printed to the console to display commands and options. Currently, there are
+While doing this, a help message is printed to the console to display commands and options. Navigate with cursor to the
+opened command line terminal, and start typing commands.
+Currently, there are
 following Commands and Options:
 
 ```text

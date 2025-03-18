@@ -13,7 +13,7 @@ import java.util.logging.SimpleFormatter;
 
 /*
 Note: many service methods return SUCCESS or ERROR strings.
-In a real world application, this would a different type or Exception (in case of errors).
+Normally in a real world application, this would a different type or Exception (in case of errors).
 For now keeping it simple.
  */
 public class LibraryService {
@@ -47,24 +47,26 @@ public class LibraryService {
     }
 
     // Assume all data is valid.
-    public void registerUser(String firstName, String lastName) {
+    public String registerUser(String firstName, String lastName) {
         long id = userRepo.addUser(firstName, lastName);
-        appLogger.info(">>> Registered new user with id " + id);
+        return "SUCCESS: Registered new user with id " + id;
     }
 
-    public void listUsers() {
-        lineLogger.info(">>> Library users:");
+    public String listUsers() {
+        String result = "Library Users:\n";
         for (User user : userRepo.getAllUsers()) {
-            lineLogger.info(user.toString());
+            result = result.concat(user.toString() + '\n');
         }
+        return result;
     }
 
-    public void listBooks() {
-        lineLogger.info(">>> Books Catalog: ");
+    public String listBooks() {
         List<Book> books = bookRepo.getAllBooks();
+        String result = "Books Catalog:\n";
         for (Book book : books) {
-            lineLogger.info(book.toString());
+            result = result.concat(book.toString() + '\n');
         }
+        return result;
     }
 
     public String addNewBook(String title) {
@@ -72,7 +74,6 @@ public class LibraryService {
         return "SUCCESS: Added new book to library catalog: " + title;
     }
 
-    // TODO -> handle error, success in APP
     public String borrowBook(long bookId, long userId) {
         Optional<Book> maybeBook = bookRepo.findBook(bookId);
         if (maybeBook.isPresent()) {
@@ -100,12 +101,12 @@ public class LibraryService {
         }
     }
 
-    public String showBorrowedBooks(long userId) {
+    public String listBorrowedBooks(long userId) {
         List<Book> borrowed = bookRepo.findBorrowedBooks(userId);
         if (borrowed.isEmpty()) {
             return "SUCCESS: User has no borrowed books.";
         } else {
-            String result = ">>> User borrowed the following books:\n";
+            String result = "User borrowed the following books:\n";
             for (Book book : borrowed) {
                 result = result.concat(book.getTitle() + "\n");
             }
