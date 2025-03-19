@@ -44,7 +44,7 @@ public class LibraryController {
         }
     }
 
-    // Create n new book in library.
+    // Create a new book in library.
     @PostMapping("/books/add")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book newBook = libraryService.createBook(book);
