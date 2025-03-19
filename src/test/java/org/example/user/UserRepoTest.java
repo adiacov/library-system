@@ -1,5 +1,8 @@
 package org.example.user;
 
+import org.example.model.User;
+import org.example.repository.InMemoryUserRepo;
+import org.example.repository.UserRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

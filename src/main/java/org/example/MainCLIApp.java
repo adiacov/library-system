@@ -1,9 +1,10 @@
 package org.example;
 
-import org.example.book.BookRepo;
-import org.example.book.InMemoryBookRepo;
-import org.example.user.InMemoryUserRepo;
-import org.example.user.UserRepo;
+import org.example.repository.BookRepo;
+import org.example.repository.InMemoryBookRepo;
+import org.example.service.LibraryServiceCli;
+import org.example.repository.InMemoryUserRepo;
+import org.example.repository.UserRepo;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -11,9 +12,9 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class Main {
+public class MainCLIApp {
     // logger for app processes
-    private final static Logger appLogger = Logger.getLogger(Main.class.getName());
+    private final static Logger appLogger = Logger.getLogger(MainCLIApp.class.getName());
 
     // logger for simple messages (w/o log format).
     // this is done to avoid situation when System.out.println doesn't display anything while running the app.
@@ -35,7 +36,7 @@ public class Main {
     // Initialization
     private static UserRepo userRepo = new InMemoryUserRepo();
     private static BookRepo bookRepo = new InMemoryBookRepo();
-    private static LibraryService library = new LibraryService(userRepo, bookRepo);
+    private static LibraryServiceCli library = new LibraryServiceCli(userRepo, bookRepo);
 
     public static void main(String[] args) {
         // Populate some data

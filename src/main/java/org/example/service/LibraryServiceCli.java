@@ -1,9 +1,9 @@
-package org.example;
+package org.example.service;
 
-import org.example.book.Book;
-import org.example.book.BookRepo;
-import org.example.user.User;
-import org.example.user.UserRepo;
+import org.example.model.Book;
+import org.example.model.User;
+import org.example.repository.BookRepo;
+import org.example.repository.UserRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +16,9 @@ Note: many service methods return SUCCESS or ERROR strings.
 Normally in a real world application, this would a different type or Exception (in case of errors).
 For now keeping it simple.
  */
-public class LibraryService {
+public class LibraryServiceCli {
 
-    private static final Logger appLogger = Logger.getLogger(LibraryService.class.getName());
+    private static final Logger appLogger = Logger.getLogger(LibraryServiceCli.class.getName());
     // create a logger for clean line printing
     private static Logger lineLogger = Logger.getAnonymousLogger();
 
@@ -41,7 +41,7 @@ public class LibraryService {
      * In a real (or more complex system),
      * LibraryService constructor parameters would be a UserService and a BookService.
      */
-    public LibraryService(UserRepo userRepo, BookRepo bookRepo) {
+    public LibraryServiceCli(UserRepo userRepo, BookRepo bookRepo) {
         this.userRepo = userRepo;
         this.bookRepo = bookRepo;
     }
@@ -93,7 +93,7 @@ public class LibraryService {
     public String returnBook(long bookId) {
         Optional<Book> maybeBook = bookRepo.findBook(bookId);
         if (maybeBook.isPresent()) {
-            Book book = maybeBook.get().unBorrow();
+            Book book = maybeBook.get().returnBook();
             bookRepo.updateBook(book);
             return "SUCCESS: Book returned " + book.getTitle();
         } else {

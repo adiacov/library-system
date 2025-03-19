@@ -1,6 +1,9 @@
 package org.example.book;
 
-import org.example.user.User;
+import org.example.model.Book;
+import org.example.repository.BookRepo;
+import org.example.repository.InMemoryBookRepo;
+import org.example.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,10 +1,26 @@
-package org.example.user;
+package org.example.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstName;
     private String lastName;
 
+    public User() {
+    }
+
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    // This constructor is needed for the CLI application
     public User(long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;

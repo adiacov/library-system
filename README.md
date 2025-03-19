@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Java 8 or later
+- Java 17 or later
 
 ## Apps
 
