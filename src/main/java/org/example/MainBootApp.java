@@ -14,7 +14,6 @@ public class MainBootApp {
 
     public static void main(String[] args) {
         SpringApplication.run(MainBootApp.class, args);
-        System.out.println("Hello");
     }
 
     // Insert some data into DB
